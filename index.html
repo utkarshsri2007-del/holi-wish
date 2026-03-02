@@ -14,14 +14,8 @@ color:#4a4a4a;
 overflow-x:hidden;
 }
 
-.section{
-display:none;
-padding:60px 20px;
-animation:fade 0.8s ease-in;
-}
-
+.section{display:none;padding:60px 20px;animation:fade 0.8s ease-in;}
 .active{display:block;}
-
 h1,h2{color:#5a9c8b;}
 
 button{
@@ -40,18 +34,11 @@ transform:scale(1.05);
 box-shadow:0 10px 25px rgba(127,200,178,0.4);
 }
 
-.game-area{
-position:relative;
-height:300px;
-overflow:hidden;
-}
+.game-area{position:relative;height:300px;overflow:hidden;}
 
 .balloon,.heart{
-width:40px;
-height:40px;
-border-radius:50%;
-position:absolute;
-cursor:pointer;
+width:40px;height:40px;border-radius:50%;
+position:absolute;cursor:pointer;
 animation:floatUp 4s linear forwards;
 }
 
@@ -65,7 +52,23 @@ from{opacity:0;}
 to{opacity:1;}
 }
 
-/* 🔥 3D Shiny Water Drops */
+/* Color circles */
+.color-option{
+width:70px;height:70px;border-radius:50%;
+display:inline-block;margin:15px;cursor:pointer;
+transition:0.3s;
+}
+
+.color-option:hover{transform:scale(1.15);}
+
+/* Unlock buttons */
+.unlock-btn{
+display:block;
+margin:15px auto;
+width:200px;
+}
+
+/* 3D Water Drops */
 .drop{
 position:fixed;
 top:-80px;
@@ -82,10 +85,8 @@ inset 4px 6px 10px rgba(0,0,0,0.15),
 .drop::after{
 content:'';
 position:absolute;
-top:15%;
-left:20%;
-width:30%;
-height:30%;
+top:15%;left:20%;
+width:30%;height:30%;
 background:rgba(255,255,255,0.7);
 border-radius:50%;
 filter:blur(2px);
@@ -98,56 +99,64 @@ filter:blur(2px);
 }
 
 .surprise-text{
-max-width:650px;
-margin:auto;
-line-height:1.9;
-font-size:16px;
-min-height:220px;
-white-space:pre-line;
+max-width:650px;margin:auto;
+line-height:1.9;font-size:16px;
+min-height:220px;white-space:pre-line;
 }
 </style>
 </head>
 
 <body>
 
+<!-- PAGE 1 -->
 <div class="section active" id="page1">
-<h2>Before It Ends</h2>
-<h1>One Final Holi Wish for Jhalak</h1>
-<p>Dear Jhalak,</p>
-<p>Thanks for being part of this little Holi experience.</p>
-<p>May this festival fill your days with soft colors and good moments.</p>
-<p><strong>WITH WARMTH AND RANG.</strong></p>
-<button onclick="nextPage(2)">Next 💛</button>
+<h1>One Final Holi Wish for Jhalak 💛</h1>
+<button onclick="nextPage(2)">Start</button>
 </div>
 
+<!-- PAGE 2 Balloon -->
 <div class="section" id="page2">
-<h1>Why This Holi Feels Special</h1>
-<p>You bring brightness 🌈</p>
-<p>You keep it real 💫</p>
-<p>You make things lighter ☀️</p>
-<button onclick="nextPage(3)">Next 🎮</button>
-</div>
-
-<div class="section" id="page3">
 <h1>🎈 Pop the Balloons</h1>
 <button onclick="startBalloons()">Start</button>
 <div class="game-area" id="game1"></div>
-<button onclick="nextPage(4)">Next ➡</button>
+<button onclick="nextPage(3)">Next</button>
 </div>
 
-<div class="section" id="page4">
+<!-- PAGE 3 Hearts -->
+<div class="section" id="page3">
 <h1>💗 Catch the Hearts</h1>
 <button onclick="startHearts()">Start</button>
 <div class="game-area" id="game2"></div>
-<button onclick="nextPage(5)">Next ➡</button>
+<button onclick="nextPage(4)">Next</button>
 </div>
 
+<!-- PAGE 4 Find Color -->
+<div class="section" id="page4">
+<h1>🎨 Find Jhalak's Color</h1>
+<p>Which color feels like her today?</p>
+
+<div class="color-option" style="background:#f7b2d9" onclick="wrongColor()"></div>
+<div class="color-option" style="background:#b5ead7" onclick="correctColor()"></div>
+<div class="color-option" style="background:#ffdac1" onclick="wrongColor()"></div>
+<div class="color-option" style="background:#c7ceea" onclick="wrongColor()"></div>
+
+<p id="colorMsg"></p>
+<button onclick="nextPage(5)">Next</button>
+</div>
+
+<!-- PAGE 5 Unlock -->
 <div class="section" id="page5">
-<h1>🎨 Color Splash</h1>
-<p>Tap anywhere for color magic ✨</p>
-<button onclick="nextPage(6)">Final Surprise 🎊</button>
+<h1>🔐 Unlock The Surprise</h1>
+<p>Choose the correct order</p>
+
+<button class="unlock-btn" onclick="checkOrder('Smile')">Smile</button>
+<button class="unlock-btn" onclick="checkOrder('Color')">Color</button>
+<button class="unlock-btn" onclick="checkOrder('Calm')">Calm</button>
+
+<p id="unlockMsg"></p>
 </div>
 
+<!-- PAGE 6 Final -->
 <div class="section" id="page6">
 <h1>Happy Holi, Jhalak 💛</h1>
 <div class="surprise-text" id="typedText"></div>
@@ -162,7 +171,7 @@ document.getElementById('page'+num).classList.add('active');
 if(num===6){startTyping();}
 }
 
-/* Games */
+/* Balloon */
 function startBalloons(){
 let area=document.getElementById("game1");
 area.innerHTML="";
@@ -176,6 +185,7 @@ area.appendChild(b);
 }
 }
 
+/* Hearts */
 function startHearts(){
 let area=document.getElementById("game2");
 area.innerHTML="";
@@ -189,23 +199,34 @@ area.appendChild(h);
 }
 }
 
-document.getElementById("page5").addEventListener("click",function(e){
-if(e.target.tagName!="BUTTON"){
-let splash=document.createElement("div");
-splash.style.position="absolute";
-splash.style.width="60px";
-splash.style.height="60px";
-splash.style.borderRadius="50%";
-splash.style.left=e.pageX-30+"px";
-splash.style.top=e.pageY-30+"px";
-splash.style.background=`hsl(${Math.random()*360},80%,70%)`;
-splash.style.opacity="0.7";
-document.body.appendChild(splash);
-setTimeout(()=>splash.remove(),500);
+/* Find Color */
+function correctColor(){
+document.getElementById("colorMsg").innerHTML="✨ Of course… she was always this shade of calm warmth.";
 }
-});
 
-/* Typing Animation */
+function wrongColor(){
+document.getElementById("colorMsg").innerHTML="Hmm… close, but not quite her vibe 💛";
+}
+
+/* Unlock */
+let correctSequence=["Smile","Color","Calm"];
+let userSequence=[];
+
+function checkOrder(value){
+userSequence.push(value);
+
+if(userSequence.length===3){
+if(JSON.stringify(userSequence)===JSON.stringify(correctSequence)){
+document.getElementById("unlockMsg").innerHTML="✨ You unlocked something special!";
+setTimeout(()=>nextPage(6),1000);
+}else{
+document.getElementById("unlockMsg").innerHTML="Oops! Try again.";
+userSequence=[];
+}
+}
+}
+
+/* Typing */
 function startTyping(){
 let text=`Holi always feels like a fresh start, and this year I wanted to share one with you.
 
@@ -235,11 +256,10 @@ document.getElementById("celebrateBtn").style.display="inline-block";
 type();
 }
 
-/* 🔥 Continuous 3D Holi Rain */
+/* Continuous Rain */
 let rainInterval;
 
 function confettiRain(){
-
 if(rainInterval) return;
 
 rainInterval=setInterval(()=>{
@@ -262,10 +282,9 @@ hsla(${hue},80%,50%,0.85))`;
 drop.style.animationDuration=(Math.random()*2+2)+"s";
 
 document.body.appendChild(drop);
-
 setTimeout(()=>{drop.remove();},4000);
 
-},100); // lower = heavier rain
+},100);
 }
 
 </script>
