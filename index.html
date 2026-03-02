@@ -59,11 +59,6 @@ cursor:pointer;
 animation:floatUp 4s linear forwards;
 }
 
-.heart{
-border-radius:50% 50% 0 0;
-transform:rotate(-45deg);
-}
-
 @keyframes floatUp{
 from{bottom:-60px;}
 to{bottom:100%;}
@@ -74,23 +69,34 @@ from{opacity:0;}
 to{opacity:1;}
 }
 
-.confetti{
+.drop{
 position:fixed;
-width:8px;
-height:8px;
-top:0;
-animation:fall 3s linear forwards;
+top:-60px;
+border-radius:50%;
+opacity:0.9;
+animation:dropFall linear forwards;
+filter:blur(0.4px);
 }
 
-@keyframes fall{
-to{transform:translateY(100vh);opacity:0;}
+@keyframes dropFall{
+0%{transform:translateY(0) scale(1);}
+85%{transform:translateY(95vh) scale(1);}
+100%{transform:translateY(100vh) scale(1.5);opacity:0;}
+}
+
+.surprise-text{
+max-width:600px;
+margin:auto;
+line-height:1.8;
+font-size:16px;
+min-height:220px;
+white-space:pre-line;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Page 1 -->
 <div class="section active" id="page1">
 <h2>Before It Ends</h2>
 <h1>One Final Holi Wish for Jhalak</h1>
@@ -102,7 +108,6 @@ to{transform:translateY(100vh);opacity:0;}
 <button onclick="nextPage(2)">Next 💛</button>
 </div>
 
-<!-- Page 2 -->
 <div class="section" id="page2">
 <h1>Why This Holi Feels Special</h1>
 <p>You bring brightness 🌈</p>
@@ -111,7 +116,6 @@ to{transform:translateY(100vh);opacity:0;}
 <button onclick="nextPage(3)">Next 🎮</button>
 </div>
 
-<!-- Page 3 Game 1 -->
 <div class="section" id="page3">
 <h1>🎈 Pop the Balloons</h1>
 <button onclick="startBalloons()">Start</button>
@@ -119,7 +123,6 @@ to{transform:translateY(100vh);opacity:0;}
 <button onclick="nextPage(4)">Next ➡</button>
 </div>
 
-<!-- Page 4 Game 2 -->
 <div class="section" id="page4">
 <h1>💗 Catch the Hearts</h1>
 <button onclick="startHearts()">Start</button>
@@ -127,19 +130,18 @@ to{transform:translateY(100vh);opacity:0;}
 <button onclick="nextPage(5)">Next ➡</button>
 </div>
 
-<!-- Page 5 Game 3 -->
 <div class="section" id="page5">
 <h1>🎨 Color Splash</h1>
 <p>Tap anywhere for color magic ✨</p>
 <button onclick="nextPage(6)">Final Surprise 🎊</button>
 </div>
 
-<!-- Page 6 Final -->
 <div class="section" id="page6">
 <h1>Happy Holi, Jhalak 💛</h1>
-<p>You made this Holi softer, brighter and more special.</p>
-<p>May our days always stay this colorful 🌈</p>
-<button onclick="confettiRain()">Celebrate 🎊</button>
+
+<div class="surprise-text" id="typedText"></div>
+
+<button id="celebrateBtn" onclick="confettiRain()" style="display:none;">Celebrate 🎊</button>
 </div>
 
 <script>
@@ -147,6 +149,10 @@ to{transform:translateY(100vh);opacity:0;}
 function nextPage(num){
 document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
 document.getElementById('page'+num).classList.add('active');
+
+if(num===6){
+startTyping();
+}
 }
 
 function startBalloons(){
@@ -169,7 +175,7 @@ for(let i=0;i<12;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.style.left=Math.random()*90+"%";
-h.style.background=`hsl(${Math.random()*360},70%,75%)`;
+h.style.background=`hsl(${Math.random()*360},80%,75%)`;
 h.onclick=function(){this.remove();}
 area.appendChild(h);
 }
@@ -184,21 +190,58 @@ splash.style.height="60px";
 splash.style.borderRadius="50%";
 splash.style.left=e.pageX-30+"px";
 splash.style.top=e.pageY-30+"px";
-splash.style.background=`hsl(${Math.random()*360},70%,70%)`;
+splash.style.background=`hsl(${Math.random()*360},80%,70%)`;
 splash.style.opacity="0.7";
 document.body.appendChild(splash);
 setTimeout(()=>splash.remove(),500);
 }
 });
 
+function startTyping(){
+let text=`Holi always feels like a fresh start, and this year I wanted to share one with you.
+
+Before words, there are colors. Before plans, there is laughter. And somehow every bright little moment reminds me of your energy.
+
+You make ordinary days feel softer and happier. The way you smile, the way you listen, and the way you show up stays with me.
+
+So this is my small Holi wish for you: more colors, more calm, and more honest moments like this.
+
+Happy Holi.
+
+With colors and warmth 💛`;
+
+let i=0;
+let speed=30;
+let target=document.getElementById("typedText");
+target.innerHTML="";
+
+function type(){
+if(i<text.length){
+target.innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,speed);
+}else{
+document.getElementById("celebrateBtn").style.display="inline-block";
+}
+}
+
+type();
+}
+
 function confettiRain(){
-for(let i=0;i<80;i++){
-let c=document.createElement("div");
-c.className="confetti";
-c.style.left=Math.random()*100+"%";
-c.style.background=`hsl(${Math.random()*360},70%,60%)`;
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),3000);
+for(let i=0;i<150;i++){
+let drop=document.createElement("div");
+drop.className="drop";
+let size=Math.random()*25+10;
+drop.style.width=size+"px";
+drop.style.height=size+"px";
+drop.style.left=Math.random()*100+"%";
+drop.style.background=`radial-gradient(circle at 30% 30%,
+hsl(${Math.random()*360},90%,75%),
+hsl(${Math.random()*360},80%,55%))`;
+drop.style.animationDuration=(Math.random()*2+2)+"s";
+document.body.appendChild(drop);
+setTimeout(()=>{drop.remove();},4000);
 }
 }
 
@@ -206,3 +249,7 @@ setTimeout(()=>c.remove(),3000);
 
 </body>
 </html>
+
+
+
+
