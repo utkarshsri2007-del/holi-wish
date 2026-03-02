@@ -1,196 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>One Final Holi Wish</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #f8f4e8, #f3eadb);
-  color: #4a4a4a;
-  text-align: center;
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(to bottom,#fdf6ec,#f6efe5);
+text-align:center;
+color:#4a4a4a;
+overflow:hidden;
 }
 
-.section {
-  padding: 40px 20px;
+.section{
+display:none;
+padding:60px 20px;
+animation:fade 0.8s ease-in;
 }
 
-h1, h2 {
-  color: #4c8c7a;
+.active{
+display:block;
 }
 
-.card-box {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  max-width: 500px;
-  margin: auto;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+h1,h2{
+color:#5a9c8b;
 }
 
-button {
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  margin: 10px;
-  font-size: 14px;
-  cursor: pointer;
+button{
+padding:12px 25px;
+border-radius:30px;
+border:none;
+margin:15px;
+cursor:pointer;
+background:#7fc8b2;
+color:white;
+transition:0.3s;
 }
 
-.primary {
-  background: #7db8a6;
-  color: white;
+button:hover{
+transform:scale(1.05);
+box-shadow:0 10px 25px rgba(127,200,178,0.4);
 }
 
-.secondary {
-  background: #eee;
+.game-area{
+position:relative;
+height:300px;
+overflow:hidden;
 }
 
-.cards {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 500px;
-  margin: auto;
+.balloon,.heart{
+width:40px;
+height:40px;
+border-radius:50%;
+position:absolute;
+cursor:pointer;
+animation:floatUp 4s linear forwards;
 }
 
-.flip-card {
-  background: transparent;
-  perspective: 1000px;
+.heart{
+border-radius:50% 50% 0 0;
+transform:rotate(-45deg);
 }
 
-.flip-inner {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
+@keyframes floatUp{
+from{bottom:-60px;}
+to{bottom:100%;}
 }
 
-.flip-card:hover .flip-inner {
-  transform: rotateY(180deg);
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
 }
 
-.flip-front, .flip-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:0;
+animation:fall 3s linear forwards;
 }
 
-.flip-back {
-  transform: rotateY(180deg);
-  background: #f1f7f4;
-}
-
-.game-area {
-  margin-top: 20px;
-}
-
-.balloon {
-  width: 40px;
-  height: 50px;
-  background: pink;
-  border-radius: 50%;
-  position: absolute;
-  cursor: pointer;
+@keyframes fall{
+to{transform:translateY(100vh);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="section">
+<!-- Page 1 -->
+<div class="section active" id="page1">
 <h2>Before It Ends</h2>
 <h1>One Final Holi Wish for Jhalak</h1>
-
-<div class="card-box">
 <p>Dear Jhalak,</p>
-
 <p>Thanks for being part of this little Holi experience.</p>
-
 <p>May this festival fill your days with soft colors and good moments.</p>
-
 <p>Keep smiling and stay colorful, Jhalak.</p>
-
 <p><strong>WITH WARMTH AND RANG.</strong></p>
-
-<button class="primary" onclick="alert('Wish Sealed 💛')">Seal Wish</button>
-<button class="secondary" onclick="location.reload()">Restart</button>
-</div>
+<button onclick="nextPage(2)">Next 💛</button>
 </div>
 
-<div class="section">
-<h2>Because of you</h2>
+<!-- Page 2 -->
+<div class="section" id="page2">
 <h1>Why This Holi Feels Special</h1>
-
-<div class="cards">
-
-<div class="flip-card">
-<div class="flip-inner">
-<div class="flip-front">You bring brightness</div>
-<div class="flip-back">Like the first splash of color</div>
-</div>
+<p>You bring brightness 🌈</p>
+<p>You keep it real 💫</p>
+<p>You make things lighter ☀️</p>
+<button onclick="nextPage(3)">Next 🎮</button>
 </div>
 
-<div class="flip-card">
-<div class="flip-inner">
-<div class="flip-front">You keep it real</div>
-<div class="flip-back">Easy, honest, and comforting</div>
-</div>
-</div>
-
-<div class="flip-card">
-<div class="flip-inner">
-<div class="flip-front">You make things lighter</div>
-<div class="flip-back">Even busy days feel simple</div>
-</div>
+<!-- Page 3 Game 1 -->
+<div class="section" id="page3">
+<h1>🎈 Pop the Balloons</h1>
+<button onclick="startBalloons()">Start</button>
+<div class="game-area" id="game1"></div>
+<button onclick="nextPage(4)">Next ➡</button>
 </div>
 
+<!-- Page 4 Game 2 -->
+<div class="section" id="page4">
+<h1>💗 Catch the Hearts</h1>
+<button onclick="startHearts()">Start</button>
+<div class="game-area" id="game2"></div>
+<button onclick="nextPage(5)">Next ➡</button>
 </div>
+
+<!-- Page 5 Game 3 -->
+<div class="section" id="page5">
+<h1>🎨 Color Splash</h1>
+<p>Tap anywhere for color magic ✨</p>
+<button onclick="nextPage(6)">Final Surprise 🎊</button>
 </div>
 
-<div class="section">
-<h1>🎮 Holi Mini Game</h1>
-
-<button class="primary" onclick="startBalloons()">Pop Balloons</button>
-<p id="score">Score: 0</p>
-
-<div class="game-area" id="gameArea" style="position:relative;height:300px;"></div>
-
+<!-- Page 6 Final -->
+<div class="section" id="page6">
+<h1>Happy Holi, Jhalak 💛</h1>
+<p>You made this Holi softer, brighter and more special.</p>
+<p>May our days always stay this colorful 🌈</p>
+<button onclick="confettiRain()">Celebrate 🎊</button>
 </div>
 
 <script>
-let score = 0;
+
+function nextPage(num){
+document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
+document.getElementById('page'+num).classList.add('active');
+}
 
 function startBalloons(){
-  score = 0;
-  document.getElementById("score").innerText = "Score: 0";
-  document.getElementById("gameArea").innerHTML = "";
-  
-  for(let i=0;i<12;i++){
-    let b = document.createElement("div");
-    b.className="balloon";
-    b.style.left = Math.random()*90+"%";
-    b.style.top = Math.random()*250+"px";
-    b.onclick=function(){
-      score++;
-      document.getElementById("score").innerText="Score: "+score;
-      this.remove();
-    }
-    document.getElementById("gameArea").appendChild(b);
-  }
+let area=document.getElementById("game1");
+area.innerHTML="";
+for(let i=0;i<12;i++){
+let b=document.createElement("div");
+b.className="balloon";
+b.style.left=Math.random()*90+"%";
+b.style.background=`hsl(${Math.random()*360},70%,70%)`;
+b.onclick=function(){this.remove();}
+area.appendChild(b);
 }
+}
+
+function startHearts(){
+let area=document.getElementById("game2");
+area.innerHTML="";
+for(let i=0;i<12;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.style.left=Math.random()*90+"%";
+h.style.background=`hsl(${Math.random()*360},70%,75%)`;
+h.onclick=function(){this.remove();}
+area.appendChild(h);
+}
+}
+
+document.getElementById("page5").addEventListener("click",function(e){
+if(e.target.tagName!="BUTTON"){
+let splash=document.createElement("div");
+splash.style.position="absolute";
+splash.style.width="60px";
+splash.style.height="60px";
+splash.style.borderRadius="50%";
+splash.style.left=e.pageX-30+"px";
+splash.style.top=e.pageY-30+"px";
+splash.style.background=`hsl(${Math.random()*360},70%,70%)`;
+splash.style.opacity="0.7";
+document.body.appendChild(splash);
+setTimeout(()=>splash.remove(),500);
+}
+});
+
+function confettiRain(){
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"%";
+c.style.background=`hsl(${Math.random()*360},70%,60%)`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),3000);
+}
+}
+
 </script>
 
 </body>
