@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Final Holi Wish</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #f8f4e8, #f3eadb);
+  color: #4a4a4a;
+  text-align: center;
+}
+
+.section {
+  padding: 40px 20px;
+}
+
+h1, h2 {
+  color: #4c8c7a;
+}
+
+.card-box {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  margin: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.primary {
+  background: #7db8a6;
+  color: white;
+}
+
+.secondary {
+  background: #eee;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.flip-card {
+  background: transparent;
+  perspective: 1000px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: #f1f7f4;
+}
+
+.game-area {
+  margin-top: 20px;
+}
+
+.balloon {
+  width: 40px;
+  height: 50px;
+  background: pink;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section">
+<h2>Before It Ends</h2>
+<h1>One Final Holi Wish for Jhalak</h1>
+
+<div class="card-box">
+<p>Dear Jhalak,</p>
+
+<p>Thanks for being part of this little Holi experience.</p>
+
+<p>May this festival fill your days with soft colors and good moments.</p>
+
+<p>Keep smiling and stay colorful, Jhalak.</p>
+
+<p><strong>WITH WARMTH AND RANG.</strong></p>
+
+<button class="primary" onclick="alert('Wish Sealed 💛')">Seal Wish</button>
+<button class="secondary" onclick="location.reload()">Restart</button>
+</div>
+</div>
+
+<div class="section">
+<h2>Because of you</h2>
+<h1>Why This Holi Feels Special</h1>
+
+<div class="cards">
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">You bring brightness</div>
+<div class="flip-back">Like the first splash of color</div>
+</div>
+</div>
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">You keep it real</div>
+<div class="flip-back">Easy, honest, and comforting</div>
+</div>
+</div>
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">You make things lighter</div>
+<div class="flip-back">Even busy days feel simple</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+<h1>🎮 Holi Mini Game</h1>
+
+<button class="primary" onclick="startBalloons()">Pop Balloons</button>
+<p id="score">Score: 0</p>
+
+<div class="game-area" id="gameArea" style="position:relative;height:300px;"></div>
+
+</div>
+
+<script>
+let score = 0;
+
+function startBalloons(){
+  score = 0;
+  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("gameArea").innerHTML = "";
+  
+  for(let i=0;i<12;i++){
+    let b = document.createElement("div");
+    b.className="balloon";
+    b.style.left = Math.random()*90+"%";
+    b.style.top = Math.random()*250+"px";
+    b.onclick=function(){
+      score++;
+      document.getElementById("score").innerText="Score: "+score;
+      this.remove();
+    }
+    document.getElementById("gameArea").appendChild(b);
+  }
+}
+</script>
+
+</body>
+</html>
