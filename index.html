@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Final Holi Wish</title>
+<title>Holi Surprise for Jhalak</title>
 
 <style>
 body{
@@ -11,7 +11,7 @@ font-family:'Segoe UI',sans-serif;
 background:linear-gradient(to bottom,#fdf6ec,#f6efe5);
 text-align:center;
 color:#4a4a4a;
-overflow:hidden;
+overflow-x:hidden;
 }
 
 .section{
@@ -20,13 +20,9 @@ padding:60px 20px;
 animation:fade 0.8s ease-in;
 }
 
-.active{
-display:block;
-}
+.active{display:block;}
 
-h1,h2{
-color:#5a9c8b;
-}
+h1,h2{color:#5a9c8b;}
 
 button{
 padding:12px 25px;
@@ -69,25 +65,42 @@ from{opacity:0;}
 to{opacity:1;}
 }
 
+/* 🔥 3D Shiny Water Drops */
 .drop{
 position:fixed;
-top:-60px;
+top:-80px;
 border-radius:50%;
-opacity:0.9;
+pointer-events:none;
 animation:dropFall linear forwards;
-filter:blur(0.4px);
+backdrop-filter:blur(2px);
+box-shadow:
+inset -4px -6px 10px rgba(255,255,255,0.4),
+inset 4px 6px 10px rgba(0,0,0,0.15),
+0 8px 15px rgba(0,0,0,0.1);
+}
+
+.drop::after{
+content:'';
+position:absolute;
+top:15%;
+left:20%;
+width:30%;
+height:30%;
+background:rgba(255,255,255,0.7);
+border-radius:50%;
+filter:blur(2px);
 }
 
 @keyframes dropFall{
 0%{transform:translateY(0) scale(1);}
-85%{transform:translateY(95vh) scale(1);}
-100%{transform:translateY(100vh) scale(1.5);opacity:0;}
+85%{transform:translateY(90vh) scale(1);}
+100%{transform:translateY(100vh) scale(1.4);opacity:0;}
 }
 
 .surprise-text{
-max-width:600px;
+max-width:650px;
 margin:auto;
-line-height:1.8;
+line-height:1.9;
 font-size:16px;
 min-height:220px;
 white-space:pre-line;
@@ -103,7 +116,6 @@ white-space:pre-line;
 <p>Dear Jhalak,</p>
 <p>Thanks for being part of this little Holi experience.</p>
 <p>May this festival fill your days with soft colors and good moments.</p>
-<p>Keep smiling and stay colorful, Jhalak.</p>
 <p><strong>WITH WARMTH AND RANG.</strong></p>
 <button onclick="nextPage(2)">Next 💛</button>
 </div>
@@ -138,9 +150,7 @@ white-space:pre-line;
 
 <div class="section" id="page6">
 <h1>Happy Holi, Jhalak 💛</h1>
-
 <div class="surprise-text" id="typedText"></div>
-
 <button id="celebrateBtn" onclick="confettiRain()" style="display:none;">Celebrate 🎊</button>
 </div>
 
@@ -149,12 +159,10 @@ white-space:pre-line;
 function nextPage(num){
 document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
 document.getElementById('page'+num).classList.add('active');
-
-if(num===6){
-startTyping();
-}
+if(num===6){startTyping();}
 }
 
+/* Games */
 function startBalloons(){
 let area=document.getElementById("game1");
 area.innerHTML="";
@@ -197,6 +205,7 @@ setTimeout(()=>splash.remove(),500);
 }
 });
 
+/* Typing Animation */
 function startTyping(){
 let text=`Holi always feels like a fresh start, and this year I wanted to share one with you.
 
@@ -211,7 +220,6 @@ Happy Holi.
 With colors and warmth 💛`;
 
 let i=0;
-let speed=30;
 let target=document.getElementById("typedText");
 target.innerHTML="";
 
@@ -219,37 +227,48 @@ function type(){
 if(i<text.length){
 target.innerHTML+=text.charAt(i);
 i++;
-setTimeout(type,speed);
+setTimeout(type,30);
 }else{
 document.getElementById("celebrateBtn").style.display="inline-block";
 }
 }
-
 type();
 }
 
+/* 🔥 Continuous 3D Holi Rain */
+let rainInterval;
+
 function confettiRain(){
-for(let i=0;i<150;i++){
+
+if(rainInterval) return;
+
+rainInterval=setInterval(()=>{
+
 let drop=document.createElement("div");
 drop.className="drop";
-let size=Math.random()*25+10;
+
+let size=Math.random()*30+15;
 drop.style.width=size+"px";
 drop.style.height=size+"px";
 drop.style.left=Math.random()*100+"%";
+
+let hue=Math.random()*360;
+
 drop.style.background=`radial-gradient(circle at 30% 30%,
-hsl(${Math.random()*360},90%,75%),
-hsl(${Math.random()*360},80%,55%))`;
+hsla(${hue},100%,85%,0.95),
+hsla(${hue},90%,60%,0.9) 60%,
+hsla(${hue},80%,50%,0.85))`;
+
 drop.style.animationDuration=(Math.random()*2+2)+"s";
+
 document.body.appendChild(drop);
+
 setTimeout(()=>{drop.remove();},4000);
-}
+
+},100); // lower = heavier rain
 }
 
 </script>
 
 </body>
 </html>
-
-
-
-
